@@ -1,0 +1,22 @@
+version: '3.7'
+
+networks:
+  kong-fc:
+    external: true
+
+services:
+  moveu-it-nuxt:
+    build:
+      dockerfile: ./.docker/dockerfiles/Dockerfile
+      context: .
+    container_name: moveu-it-nuxt
+    entrypoint: sh ./.docker/entrypoint.sh
+    restart: "on-failure"
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/movue-it-nuxt/app
+    networks:
+      - kong-fc
+    extra_hosts:
+      - host.docker.internal:host-gateway
